@@ -2,22 +2,26 @@
 
 {% block title %}Hello CsController!{% endblock %}
 
+
+
 {% block body %}
-<div class="jumbotron">
-    <div class="container">
-        {{  form_start(form) }}
-            <div class="form-row">
-                <div class="col">
-                    {{ form_row(form.byCollege) }}
-                </div>
-                <div class="col">
-                    {{ form_row(form.distance) }}
-                </div>
-                <div class="col">
-                    <button class="btn btn-primary">Rechercher</button>
-                </div>
-            </div>
-        {{ form_end(form) }}
+
+
+    {{ form_start(formCollege)  }}
+
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_widget(formCollege.nom) }}
+
+            <button type="submit" class="btn btn-warning">Valider</button>
+            
+        </div>
     </div>
-</div>
+    
+    
+
+    {{ form_end(formCollege)  }}
+   
+
+  
 {% endblock %}

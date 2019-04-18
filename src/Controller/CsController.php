@@ -4,40 +4,50 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\CsSearch;
-use App\Form\CsSearchType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use App\Repository\CollegeRepository;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\College;
+
+
 
 class CsController extends AbstractController
 {
 
     /**
-     * @var CollegeRepository
-     */
-    private $repository;
-
-    public function __construct(CollegeRepository $repository)
-    {
-        $this->repository = $repository; 
-    }
-
-    /**
      * @Route("/cs", name="cs")
-     * @return Response
      */
-    public function index(): Response
+    public function index(Request $request, ObjectManager $manager)
     {
-        $search = new CsSearch();
-        $form = $this->createForm(CsSearchType::class, $search);
-        
+
 
         
+        
+        $college = new College();
+
+
+        $form = $this->createFormBuilder($college)
+                    ->add('nom', EntityType::class, [
+
+                        'class' => College::class,
+
+                        'choice_label' => 'nom',
+                    ])
+                    ->getForm();
+        
+        
+        $form->handleRequest($request);
+
+        dump($college);
+
+
+
 
         return $this->render('cs/index.html.twig', [
             'controller_name' => 'CsController',
-            'form' => $form->createView()
+            'formCollege' => $form->createView()
         ]);
     }
 }
